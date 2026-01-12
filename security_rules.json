@@ -2,7 +2,7 @@
   "pod_rules": [
     {
       "id": "default_sa_used",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -14,7 +14,7 @@
     },
     {
       "id": "workload_in_default_namespace",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -26,7 +26,7 @@
     },
     {
       "id": "dns_policy_default",
-      "severity": 4,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -290,7 +290,7 @@
     },
     {
       "id": "read_only_root_fs_disabled",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -326,7 +326,7 @@
     },
     {
       "id": "seccomp_profile_missing_or_unset",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -338,7 +338,7 @@
     },
     {
       "id": "pod_seccomp_missing_or_unset",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -740,7 +740,7 @@
     },
     {
       "id": "liveness_probe_missing",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -752,7 +752,7 @@
     },
     {
       "id": "readiness_probe_missing",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -764,7 +764,7 @@
     },
     {
       "id": "startup_probe_missing",
-      "severity": 4,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -776,7 +776,7 @@
     },
     {
       "id": "limits_cpu_missing",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -789,7 +789,7 @@
     },
     {
       "id": "limits_memory_missing",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -802,7 +802,7 @@
     },
     {
       "id": "limits_ephemeral_storage_missing",
-      "severity": 4,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -815,7 +815,7 @@
     },
     {
       "id": "requests_cpu_missing",
-      "severity": 4,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -828,7 +828,7 @@
     },
     {
       "id": "requests_memory_missing",
-      "severity": 4,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -841,7 +841,7 @@
     },
     {
       "id": "requests_ephemeral_storage_missing",
-      "severity": 4,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -854,7 +854,7 @@
     },
     {
       "id": "image_without_digest",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -866,7 +866,7 @@
     },
     {
       "id": "image_tag_latest_or_missing",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -878,7 +878,7 @@
     },
     {
       "id": "host_port_used",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -902,7 +902,7 @@
     },
     {
       "id": "termination_grace_period_too_long",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -939,7 +939,7 @@
     },
     {
       "id": "fs_group_not_set",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -987,7 +987,7 @@
     },
     {
       "id": "image_pull_policy_always_missing",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -999,7 +999,7 @@
     },
     {
       "id": "env_vars_from_configmap",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -1023,7 +1023,7 @@
     },
     {
       "id": "volume_mounts_writable",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -1035,7 +1035,7 @@
     },
     {
       "id": "empty_dir_volume_present",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -1047,7 +1047,7 @@
     },
     {
       "id": "configmap_mounted",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -1083,7 +1083,7 @@
     },
     {
       "id": "lifecycle_hooks_missing",
-      "severity": 4,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -1095,7 +1095,7 @@
     },
     {
       "id": "restart_policy_always",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -1107,7 +1107,7 @@
     },
     {
       "id": "priority_class_missing",
-      "severity": 4,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -1119,7 +1119,7 @@
     },
     {
       "id": "node_selector_missing",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -1143,7 +1143,7 @@
     },
     {
       "id": "affinity_missing",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -1191,7 +1191,7 @@
     },
     {
       "id": "runtime_class_missing",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -1203,7 +1203,7 @@
     },
     {
       "id": "overhead_resources_missing",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -1215,7 +1215,7 @@
     },
     {
       "id": "topology_spread_constraints_missing",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "k8s",
         "posture",
@@ -1282,7 +1282,7 @@
     },
     {
       "id": "ufw_inactive",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "firewall"
       ],
@@ -1292,7 +1292,7 @@
     },
     {
       "id": "firewalld_inactive",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "firewall"
       ],
@@ -1302,7 +1302,7 @@
     },
     {
       "id": "selinux_not_enforcing",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "selinux"
       ],
@@ -1312,7 +1312,7 @@
     },
     {
       "id": "iptables_permissive",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "firewall"
       ],
@@ -1322,7 +1322,7 @@
     },
     {
       "id": "auditd_inactive",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "audit"
       ],
@@ -1332,7 +1332,7 @@
     },
     {
       "id": "apparmor_disabled",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "apparmor"
       ],
@@ -3342,7 +3342,7 @@
     },
     {
       "id": "apparmor_disabled_final",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "apparmor"
       ],
@@ -3352,7 +3352,7 @@
     },
     {
       "id": "auditd_inactive_final",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "audit"
       ],
@@ -3362,7 +3362,7 @@
     },
     {
       "id": "iptables_permissive_final",
-      "severity": 3,
+      "severity": 2,
       "tags": [
         "firewall"
       ],

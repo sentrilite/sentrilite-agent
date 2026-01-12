@@ -176,7 +176,7 @@
     "tags": [
       "scripting-runtime"
     ],
-    "risk_level": 3
+    "risk_level": 2
   },
   {
     "match_key": "cmd",
@@ -189,7 +189,7 @@
     "tags": [
       "encode-archive"
     ],
-    "risk_level": 3
+    "risk_level": 2
   },
   {
     "match_key": "cmd",
@@ -204,7 +204,7 @@
     "tags": [
       "package-install"
     ],
-    "risk_level": 3
+    "risk_level": 2
   },
   {
     "match_key": "user",
@@ -214,7 +214,7 @@
     "tags": [
       "privileged-user-activity"
     ],
-    "risk_level": 3
+    "risk_level": 2
   },
   {
     "match_key": "iid",
@@ -224,6 +224,6 @@
     "tags": [
       "privileged-user-activity"
     ],
-    "risk_level": 3
+    "risk_level": 2
   }
 ]

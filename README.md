@@ -99,6 +99,7 @@ In summary, Sentrilite gives you container-aware process, file, and network visi
 | `LICENSE.bpftool`         | GPL-2.0 License for bpftool. Source: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/LICENSES/preferred/GPL-2.0
 | `license.key`             | Sentrilite License key file
 | `LICENSE.txt`             | Sentrilite License Agreement
+| `gen_keys.txt`            | Instructions to create tls/ssl/jwt keys for agent/control-plane
 | `install.README`          | This installation guide
 | `dashboard.README`        | Dashboard usage guide
 | `Product Guide v1.1.pdf`  | Sentrilite Product Guide

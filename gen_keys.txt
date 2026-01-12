@@ -1,0 +1,200 @@
+#Initial setup:
+
+Key generation:
+
+1️⃣ Generate the Certificate Authority (CA)
+
+This CA is used to sign both:
+
+SS (server) certificate
+
+Agent (client) certificate
+
+Generate CA private key
+openssl genrsa -out ca.key 4096
+
+Generate CA self-signed certificate
+openssl req -x509 -new -nodes \
+  -key ca.key \
+  -sha256 \
+  -days 3650 \
+  -subj "/CN=Sentrilite-CA" \
+  -out ca.crt
+
+
+📁 Outputs
+
+ca.key   (CA private key)
+ca.crt   (CA public certificate)
+
+2️⃣ Generate Server (SS) Certificate
+
+This certificate is used by the Sentrilite Server (SS) to accept TLS connections.
+
+Generate server private key
+openssl genrsa -out ss.key 2048
+
+Generate server CSR
+openssl req -new \
+  -key ss.key \
+  -subj "/CN=localhost" \
+  -out ss.csr
+
+
+⚠️ Note: At this stage, the CN was set to localhost and no SANs were defined, which later caused hostname verification errors when accessed via EC2 hostname.
+
+Sign server certificate with CA
+openssl x509 -req \
+  -in ss.csr \
+  -CA ca.crt \
+  -CAkey ca.key \
+  -CAcreateserial \
+  -out ss.crt \
+  -days 825 \
+  -sha256
+
+
+📁 Outputs
+
+ss.key   (SS private key)
+ss.csr   (SS certificate signing request)
+ss.crt   (SS public certificate)
+
+3️⃣ Generate Agent (Client) Certificate
+
+This certificate is used by Sentrilite Agent to authenticate to SS via mTLS.
+
+Generate agent private key
+openssl genrsa -out agent.key 2048
+
+Generate agent CSR
+openssl req -new \
+  -key agent.key \
+  -subj "/CN=sentrilite-agent" \
+  -out agent.csr
+
+Sign agent certificate with CA
+openssl x509 -req \
+  -in agent.csr \
+  -CA ca.crt \
+  -CAkey ca.key \
+  -CAcreateserial \
+  -out agent.crt \
+  -days 825 \
+  -sha256
+
+
+📁 Outputs
+
+agent.key   (agent private key)
+agent.csr   (agent certificate signing request)
+agent.crt   (agent public certificate)
+
+4️⃣ Generate JWT Signing Keys (Authentication Layer)
+
+These keys are used separately from TLS for:
+
+Agent authentication
+
+UI authentication
+
+API access control
+
+Generate JWT private key
+openssl genrsa -out jwt_private.pem 2048
+
+Extract JWT public key
+openssl rsa -in jwt_private.pem -pubout -out jwt_public.pem
+
+
+📁 Outputs
+
+jwt_private.pem   (JWT signing key)
+jwt_public.pem    (JWT verification key)
+
+
+
+
+
+#Further modifications
+
+
+copy ca.key onto the sentrilite pods and run to regenerate agent.key, agent.csr
+
+
+sed -i 's/localhost/ec2-3-17-135-143.us-east-2.compute.amazonaws.com/' sys.conf
+
+# 1. Generate private key
+openssl genrsa -out agent.key 4096
+
+# 2. Generate CSR with unique CN
+NODE=$(hostname)
+openssl req -new \
+  -key agent.key \
+  -subj "/CN=sentrilite-agent-${NODE}" \
+  -out agent.csr
+
+# 3. Sign with CA
+openssl x509 -req \
+  -in agent.csr \
+  -CA ca.crt \
+  -CAkey ca.key \
+  -CAcreateserial \
+  -out agent.crt \
+  -days 825 \
+  -sha256
+  
+kill the sentrilite process. It will restart and rebuid the mtls clients.
+
+
+On Server side:
+
+Update your server.cnf to this:
+
+[req]
+default_bits = 4096
+prompt = no
+default_md = sha256
+distinguished_name = dn
+req_extensions = req_ext
+
+[dn]
+C = US
+O = Sentrilite
+CN = sentrilite-server
+
+[req_ext]
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = sentrilite-server
+DNS.2 = localhost
+DNS.3 = ec2-3-17-135-143.us-east-2.compute.amazonaws.com
+
+IP.1  = 127.0.0.1
+IP.2  = 3.17.135.143
+
+🔑 Regenerate SS cert (do this exactly)
+# 1. Generate key
+openssl genrsa -out ss.key 4096
+
+# 2. Generate CSR
+openssl req -new \
+  -key ss.key \
+  -out ss.csr \
+  -config server.cnf
+
+# 3. Sign with CA
+openssl x509 -req \
+  -in ss.csr \
+  -CA ca.crt \
+  -CAkey ca.key \
+  -CAcreateserial \
+  -out ss.crt \
+  -days 825 \
+  -sha256 \
+  -extensions req_ext \
+  -extfile server.cnf
+
+🔍 Verify before restarting SS
+openssl x509 -in ss.crt -noout -text | grep -A10 "Subject Alternative Name"

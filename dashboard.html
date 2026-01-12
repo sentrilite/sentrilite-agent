@@ -124,10 +124,24 @@ let alertHistory = [];
 let currentRiskFilter = null;
 let ws;
 
+function getWebSocketHost() {
+  // When dashboard.html is opened via file://, hostname is empty → fallback to localhost
+  if (window.location.hostname && window.location.hostname.length > 0) {
+    return window.location.hostname;
+  }
+  return "localhost";
+}
+
 function connectWebSocket() {
-  ws = new WebSocket("ws://" + location.hostname + ":8765");
+  const host = getWebSocketHost();
+  const url  = `ws://${host}:8765`;
+
+  console.log("Connecting to WebSocket:", url);
+
+  ws = new WebSocket(url);
 
   ws.onopen = () => {
+    console.log("✅ WebSocket connected");
     document.getElementById("status").textContent = "🟢 Connected";
     document.getElementById("status").style.color = "#2ecc71";
   };
@@ -404,4 +418,5 @@ function updateXdrRuleList(rules) {
 </script>
 </body>
 </html>
+
 
