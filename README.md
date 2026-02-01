@@ -44,12 +44,13 @@ nmap -p 22,80,443 127.0.0.1 >/dev/null 2>&1
 
 # ✨ Description
 
-Sentrilite is a Detection-as-Code (DAC), Hybrid-Cloud Programmable Observability, Runtime-Security & CSPM Platform and streams structured, real-time events to a web UI where custom rules drive risk scoring, alerting, and reporting.
+Sentrilite is a Detection-as-Code & Active Response (DACR), Hybrid-Cloud Programmable Observability, Runtime-Security & CSPM Platform and streams structured, real-time events to a web UI where custom rules drive risk scoring, alerting, and reporting.
 Hybrid & multi-cloud ready: Works the same across public clouds and on-prem—EKS, GKE, AKS, vanilla Kubernetes, bare-metal, and edge—so you get a consistent, low-overhead security and observability layer for hybrid/multi-cloud environments all managed from a single dashboard.
 
 In Kubernetes, Sentrilite runs as a privileged DaemonSet on every node (no changes to your workloads). Each agent uses hostPID/hostNetwork to observe container processes, then enriches events with pod metadata (namespace, pod, container, UID) by correlating cgroups with the API server. This lets you see all the activity at the container/pod level:
 
 - Detection-As-Code: Add / modify detection rules instantly via json files. Hot Reload — no rebuilds, no redeploys. See custom_rule.json and security_rules.json
+- Active Response: Automatically terminate malicious processes in real time based on policy, without agent restarts or redeploys.
 - Seamless install & upgrade: kubectl apply the DaemonSet (sentrilite.yaml) and you’re done; rolling updates pick up new rules and images cluster-wide.
 - Process visibility: Capture commands and args (execve) per container/pod with user, PID/PPID, and image context; trigger rules like “alert on cat /etc/passwd” or “block high-risk binaries.”
 - File activity: Match sensitive file paths (config, keys, tokens) using rule packs; flag exfil patterns and privilege-escalation attempts.
