@@ -1,6 +1,6 @@
-## Sentrilite — Threat Detection-as-Code & Active Response (DACR), eBPF-based, Observability, Runtime-Security & Cloud-Security Posture Management in One Platform with AI/LLM Insights.
+## Sentrilite — Threat Detection-as-Code & Active Response, eBPF-based, Observability, Runtime-Security & Cloud-Security Posture Management in One Platform with AI/LLM Insights.
 ### Website: https://sentrilite.com
-### Contact: info@sentrilite.com
+### Please Contact: info@sentrilite.com for a trial license.
 
 ## Live Demo – Active Threat Response
 ![Sentrilite Demo](./Sentrilite_Demo.gif)
@@ -31,7 +31,7 @@ nmap -p 22,80,443 127.0.0.1 >/dev/null 2>&1
 
 ## Sentrilite Alert Report
 ![Sentrilite PDF_Report](./Sample_Alert_Report.png)
-## Main Dashboard
+## Control Plane / Main Dashboard
 ![Sentrilite Main Dashboard](./main_dashboard.png)
 ## Live Server Dashboard
 ![Sentrilite Server_Dashboard](./live_dashboard.png)
@@ -44,7 +44,7 @@ nmap -p 22,80,443 127.0.0.1 >/dev/null 2>&1
 
 ## ✨ Description
 
-Sentrilite is a Detection-as-Code & Active Response (DACR), Hybrid-Cloud Programmable Observability, Runtime-Security & CSPM Platform and streams structured, real-time events to a web UI where custom rules drive risk scoring, alerting, and reporting.
+Sentrilite is a Detection-as-Code & Active Response, Hybrid-Cloud Programmable Observability, Runtime-Security & CSPM Platform and streams structured, real-time events to a web UI where custom rules drive risk scoring, alerting, and reporting.
 Hybrid & multi-cloud ready: Works the same across public clouds and on-prem—EKS, GKE, AKS, vanilla Kubernetes, bare-metal, and edge—so you get a consistent, low-overhead security and observability layer for hybrid/multi-cloud environments all managed from a single dashboard.
 
 In Kubernetes, Sentrilite runs as a privileged DaemonSet on every node (no changes to your workloads). Each agent uses hostPID/hostNetwork to observe container processes, then enriches events with pod metadata (namespace, pod, container, UID) by correlating cgroups with the API server. This lets you see all the activity at the container/pod level:
