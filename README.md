@@ -1,8 +1,8 @@
-# Sentrilite — Threat Detection-as-Code & Active Response (DACR), eBPF-based, Observability, Runtime-Security & Cloud-Security Posture Management in One Platform with AI/LLM Insights.
-## Website: https://sentrilite.com
-## Contact: info@sentrilite.com
+## Sentrilite — Threat Detection-as-Code & Active Response (DACR), eBPF-based, Observability, Runtime-Security & Cloud-Security Posture Management in One Platform with AI/LLM Insights.
+### Website: https://sentrilite.com
+### Contact: info@sentrilite.com
 
-# Live Demo – Active Threat Response
+## Live Demo – Active Threat Response
 ![Sentrilite Demo](./Sentrilite_Demo.gif)
 
 ---
@@ -29,20 +29,20 @@ nmap -p 22,80,443 127.0.0.1 >/dev/null 2>&1
 ```
 ---
 
-# Sentrilite Alert Report
+## Sentrilite Alert Report
 ![Sentrilite PDF_Report](./Sample_Alert_Report.png)
-# Main Dashboard
+## Main Dashboard
 ![Sentrilite Main Dashboard](./main_dashboard.png)
-# Live Server Dashboard
+## Live Server Dashboard
 ![Sentrilite Server_Dashboard](./live_dashboard.png)
-# Sentrilite Workflow Diagram
+## Sentrilite Workflow Diagram
 ![Sentrilite hybrid cloud diagram](./Sentrilite_Architecture_Diagram.png)
-# Sentrilite Components
+## Sentrilite Components
 ![Sentrilite components](./components.png)
-# CI/CD Workflow
+## CI/CD Workflow
 ![Sentrilite_CI_CD_Workflow](./CI_CD_Workflow.png)
 
-# ✨ Description
+## ✨ Description
 
 Sentrilite is a Detection-as-Code & Active Response (DACR), Hybrid-Cloud Programmable Observability, Runtime-Security & CSPM Platform and streams structured, real-time events to a web UI where custom rules drive risk scoring, alerting, and reporting.
 Hybrid & multi-cloud ready: Works the same across public clouds and on-prem—EKS, GKE, AKS, vanilla Kubernetes, bare-metal, and edge—so you get a consistent, low-overhead security and observability layer for hybrid/multi-cloud environments all managed from a single dashboard.
